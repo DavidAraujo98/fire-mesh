@@ -41,5 +41,5 @@ This data by itself has little to no used to each one of the teams, but when com
 This diagram roughly illustrated the communication between node, sharing information like humidity and temperature, as well as being able o reach distant using P2P technology.
 
 <p align="center">
-  <img alt="IPFS in wild fire" src="diagrams/event.png">
+  <img alt="IPFS in wild fire" src="docs/diagrams/event.png">
 </p>
