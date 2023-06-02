@@ -7,7 +7,7 @@ ENV INTF_NAME="eth0"
 ENV SWARM_KEY=""
 ENV STORE=""
 
-COPY sensormesh /usr/local/bin/sensormesh
+COPY sensormesh.o /usr/local/bin/sensormesh
 COPY bootstrap.sh /usr/local/bin/bootstrap.sh
 
 RUN chmod -R 777 /usr/local/bin/*
