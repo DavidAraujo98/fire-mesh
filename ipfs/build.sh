@@ -10,15 +10,18 @@
 TARGET_IMAGE_NAME=$1
 
 if [[ $2 == "--build" ]]; then
-
+    
+    # Now it needs to clone from the proper repository
+    git clone https://github.com/DavidAraujo98/sensor-mesh.git ./sensormesh/
+    
     # Build golang configuration file
-    cd sensormesh/
-    OUT=$(go build -o ../nodes/sensormesh main.go)
+    cd sensormesh/sensormesh
+    OUT=$(go build -o ../../nodes/sensormesh main.go)
     if [[ $OUT != "" ]]; then
         echo -e "[!] sensormesh compiling error !"
     fi
     echo -e "[🗸] SensorMesh binary compiled!"
-    cd ..
+    cd ../..
 
     # Guarantees that every shell script is in Unix format. (Usefull if you develop in Windows)
     dos2unix -q nodes/*.sh
