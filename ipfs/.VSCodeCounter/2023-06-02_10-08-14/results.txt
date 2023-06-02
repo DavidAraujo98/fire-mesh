@@ -1,0 +1,43 @@
+Date : 2023-06-02 10:08:14
+Directory : /home/user66/Documents/RSA/Project/ipfs/sensormesh
+Total : 11 files,  1421 codes, 86 comments, 100 blanks, all 1607 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Go Checksum File |          1 |        857 |          0 |          1 |        858 |
+| Go               |          9 |        456 |         86 |         95 |        637 |
+| Go Module File   |          1 |        108 |          0 |          4 |        112 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                    | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                       |         11 |      1,421 |         86 |        100 |      1,607 |
+| . (Files)                                                               |          3 |        972 |          3 |          8 |        983 |
+| cmd                                                                     |          8 |        449 |         83 |         92 |        624 |
+| cmd (Files)                                                             |          3 |        232 |         51 |         45 |        328 |
+| cmd/config                                                              |          1 |         34 |         16 |          5 |         55 |
+| cmd/sensor                                                              |          3 |         70 |         12 |         23 |        105 |
+| cmd/shared                                                              |          1 |        113 |          4 |         19 |        136 |
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                | language         | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/config/config.go | Go               |         34 |         16 |          5 |         55 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/daemon.go        | Go               |        134 |         35 |         26 |        195 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/init.go          | Go               |         73 |         10 |         13 |         96 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/root.go          | Go               |         25 |          6 |          6 |         37 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/sensor/add.go    | Go               |         29 |          4 |         13 |         46 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/sensor/remove.go | Go               |         18 |          4 |          6 |         28 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/sensor/sensor.go | Go               |         23 |          4 |          4 |         31 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/shared/shared.go | Go               |        113 |          4 |         19 |        136 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/go.mod               | Go Module File   |        108 |          0 |          4 |        112 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/go.sum               | Go Checksum File |        857 |          0 |          1 |        858 |
+| /home/user66/Documents/RSA/Project/ipfs/sensormesh/main.go              | Go               |          7 |          3 |          3 |         13 |
+| Total                                                                   |                  |      1,421 |         86 |        100 |      1,607 |
++-------------------------------------------------------------------------+------------------+------------+------------+------------+------------+

@@ -1,0 +1,8 @@
+"filename", "language", "Shell Script", "YAML", "Markdown", "comment", "blank", "total"
+"/home/user66/Documents/RSA/Project/ipfs/README.md", "Markdown", 0, 0, 70, 0, 6, 76
+"/home/user66/Documents/RSA/Project/ipfs/build.sh", "Shell Script", 32, 0, 0, 15, 11, 58
+"/home/user66/Documents/RSA/Project/ipfs/doc/configExample.yaml", "YAML", 0, 17, 0, 1, 3, 21
+"/home/user66/Documents/RSA/Project/ipfs/docker-compose-initial.yml", "YAML", 0, 24, 0, 0, 3, 27
+"/home/user66/Documents/RSA/Project/ipfs/docker-compose-secondary.yml", "YAML", 0, 41, 0, 0, 4, 45
+"/home/user66/Documents/RSA/Project/ipfs/nodes/bootstrap.sh", "Shell Script", 12, 0, 0, 7, 8, 27
+"Total", "-", 44, 82, 70, 23, 35, 254

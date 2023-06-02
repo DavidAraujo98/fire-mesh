@@ -1,0 +1,13 @@
+"filename", "language", "Go", "Go Checksum File", "Go Module File", "comment", "blank", "total"
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/config/config.go", "Go", 34, 0, 0, 16, 5, 55
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/daemon.go", "Go", 134, 0, 0, 35, 26, 195
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/init.go", "Go", 73, 0, 0, 10, 13, 96
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/root.go", "Go", 25, 0, 0, 6, 6, 37
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/sensor/add.go", "Go", 29, 0, 0, 4, 13, 46
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/sensor/remove.go", "Go", 18, 0, 0, 4, 6, 28
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/sensor/sensor.go", "Go", 23, 0, 0, 4, 4, 31
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/cmd/shared/shared.go", "Go", 113, 0, 0, 4, 19, 136
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/go.mod", "Go Module File", 0, 0, 108, 0, 4, 112
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/go.sum", "Go Checksum File", 0, 857, 0, 0, 1, 858
+"/home/user66/Documents/RSA/Project/ipfs/sensormesh/main.go", "Go", 7, 0, 0, 3, 3, 13
+"Total", "-", 456, 857, 108, 86, 100, 1607

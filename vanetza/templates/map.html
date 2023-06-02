@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Map</title>
+    <!-- Include necessary CSS and JavaScript libraries for the mapping library you choose -->
+    <!-- For example, if using Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+</head>
+<body style="padding:0; margin:0; width:100vw;height:100vw;">
+    <div id="map" style="width:100%; height: 100%"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <script>
+        // Connect to the WebSocket
+        var socket = io();
+        console.log("Connected to server");
+
+        // Initialize the map
+        var map = L.map("map").setView([40.31193554951212, -7.731490301420879], 17);
+
+        // Create a tile layer (adjust URL and options according to the mapping library)
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Initialize custom marker icons for different colors
+        var blueIcon = L.icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        var redIcon = L.icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        var orangeIcon = L.icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        var yellowIcon = L.icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        // Initialize a marker for each client
+        var markers = {};
+
+        // Listen for coordinate updates from the server
+        socket.on("coordinates", function (data) {
+            console.log(data);
+            for (var index in data) {
+                if (data.hasOwnProperty(index)) {
+                    var coordinates = data[index];
+                    var color = coordinates.color;
+                    if (!markers[index]) {
+                        markers[index] = L.marker([coordinates.latitude, coordinates.longitude], { icon: createIcon(color) }).addTo(map);
+                    } else {
+                        markers[index].setLatLng([coordinates.latitude, coordinates.longitude]);
+                    }
+                }
+            }
+        });
+
+        // Function to create a custom marker icon based on color
+        function createIcon(color) {
+            if (color === "blue") {
+                return blueIcon;
+            } else if (color === "red") {
+                return redIcon;
+            } else if (color === "orange") {
+                return orangeIcon;
+            } else if (color === "yellow") {
+                return yellowIcon;
+            } else {
+                // Default to blue if no color specified
+                return blueIcon;
+            }
+        }
+
+        // Listen for marker color updates from the server
+        socket.on("update_color", function (data) {
+            console.log(data);
+            var marker = markers[data.index];
+            if (marker) {
+                var color = data.color;
+                marker.setIcon(createIcon(color));
+            }
+        });
+    </script>
+</body>
+</html>
