@@ -17,7 +17,7 @@ if [[ $2 == "--build" ]]; then
     if [[ $OUT != "" ]]; then
         echo -e "[!] sensormesh compiling error !"
     fi
-    echo -e "[🗸] SensorMesh binary compiled!"
+    echo -e "[+] SensorMesh binary compiled!"
     cd ..
 
     # Guarantees that every shell script is in Unix format. (Usefull if you develop in Windows)
@@ -25,7 +25,7 @@ if [[ $2 == "--build" ]]; then
 
     # Build new image
     echo -e "[*] Building docker image..."
-    SHA=$(docker build -q --no-cache -t $TARGET_IMAGE_NAME -f nodes/CombatVehicle.Dockerfile ./nodes) && echo -e "[🗸] Docker image built. $SHA"
+    SHA=$(docker build -q --no-cache -t $TARGET_IMAGE_NAME -f nodes/CombatVehicle.Dockerfile ./nodes) && echo -e "[+] Docker image built. $SHA"
 fi
 
 if [[ $2 == "--up" || $3 == "--up" ]]; then
@@ -33,11 +33,11 @@ if [[ $2 == "--up" || $3 == "--up" ]]; then
 
     ## Generate Swarm key wich must be shared between all nodes
     SWARM_KEY=$(head -c 32 /dev/urandom | od -t x1 -A none - | tr -d '\n '; echo '')
-    echo -e "[🗸] Swarm key generated: $SWARM_KEY"
+    echo -e "[+] Swarm key generated: $SWARM_KEY"
 
     # First node creates the OrbitDB store with default name
     echo -e "[!] First vehicle on scene..."
-    TARGET_IMAGE_NAME=$TARGET_IMAGE_NAME SWARM_KEY=$SWARM_KEY STORE=$STORE docker-compose -f docker-compose-initial.yml --log-level ERROR up -d --remove-orphans
+    TARGET_IMAGE_NAME=$TARGET_IMAGE_NAME SWARM_KEY=$SWARM_KEY STORE=$STORE docker-compose -f docker-compose-initial.yml up -d --remove-orphans
     sleep 10
 
     # Search for the OrbitDB address inside first node
@@ -47,12 +47,12 @@ if [[ $2 == "--up" || $3 == "--up" ]]; then
             echo -e "[!] Node failed to run sensormesh!"
             return
         fi
-        echo -e "[🗸] Store address created by first vehicle: $STORE"
+        echo -e "[+] Store address created by first vehicle: $STORE"
         break
     done
     sleep 2
 
     # Spin up secondary nodes with created database address to connect to 
     echo -e "[!] Other vehicle arriving on scene..."
-    TARGET_IMAGE_NAME=$TARGET_IMAGE_NAME SWARM_KEY=$SWARM_KEY STORE=$STORE docker-compose -f docker-compose-secondary.yml --log-level ERROR up -d
+    TARGET_IMAGE_NAME=$TARGET_IMAGE_NAME SWARM_KEY=$SWARM_KEY STORE=$STORE docker-compose -f docker-compose-secondary.yml up -d
 fi
