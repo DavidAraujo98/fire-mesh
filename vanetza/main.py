@@ -202,8 +202,6 @@ def publish_coordinates():
     c = 0
     while True:
         for index, client in enumerate(clients):
-            if(index == 1): 
-                    index = 3
             distance = hs.haversine(coords_base,coords_fugitivo)*1000
             #print("d: "+str(distance))
             if index != 2 or int(distance) < 120:
@@ -223,11 +221,11 @@ def publish_coordinates():
 
 
 if __name__ == "__main__":
-    #ip_obus = ["192.168.98.10", "192.168.98.20", "192.168.98.30", "192.168.98.40", "192.168.98.50"]
+    ip_obus = ["192.168.98.10", "192.168.98.20", "192.168.98.30", "192.168.98.40", "192.168.98.50"]
     #ip_obus = ["192.168.6.130","192.168.6.140","192.168.6.149"]
-    ip_obus = ["192.168.1.109","192.168.1.110","192.168.1.111"]
+    #ip_obus = ["192.168.1.109","192.168.1.110","192.168.1.111"]
     clients = []
-    ids = [130,140,149]
+    ids = []
 
     for i in ip_obus:
         client = mqtt.Client()
