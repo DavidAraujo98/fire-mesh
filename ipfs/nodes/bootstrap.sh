@@ -10,8 +10,11 @@ STORE=$5            #OrbitDB database store address (name if first vehicle)
 # Initiate node and clean swarm
 ipfs init
 
-#Initiate sensormesh
+# Initiate sensormesh
 sensormesh init --nodename=$REPO_NAME --swarmkey=$SWARM_KEY
+
+# Subscribe to MQTT channel 
+sensormesh channel connect --brokerUrl="tcp://127.0.0.1:1883" --topic=""
 
 # Remove bootstrap addresses
 ipfs bootstrap rm --all

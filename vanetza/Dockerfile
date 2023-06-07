@@ -85,4 +85,17 @@ COPY --from=0 /root/go/pkg/mod/github.com/rticommunity/ /root/go/pkg/mod/github.
 COPY --from=0 /tmp/prometheus-cpp/_build/*.deb /deps/
 RUN dpkg -i /deps/*.deb
 RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+
+### SensorMesh adaptation ###
+COPY ipfs /usr/local/bin/ipfs
+COPY sensormesh.o /usr/local/bin/sensormesh
+ENV VEHICLE_NAME="vfci#"
+ENV FIRESTATION_ID="0000"
+ENV EVENT_ID="1111"
+ENV INTF_NAME="eth0"
+ENV SWARM_KEY=""
+ENV STORE=""
+ENTRYPOINT ["/entrypoint.sh", ${FIRESTATION_ID}_${VEHICLE_NAME}, ${EVENT_ID}, ${INTF_NAME}, ${SWARM_KEY}, ${STORE}]
+### SensorMesh adaptation ###
+
+#ENTRYPOINT ["/entrypoint.sh"]

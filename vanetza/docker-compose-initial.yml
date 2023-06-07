@@ -1,0 +1,37 @@
+version: "2.4"
+services:
+    obu:
+        hostname: obu
+        restart: always
+        image: ${TARGET_IMAGE_NAME}
+        cap_add:
+            - "NET_ADMIN"
+        environment:
+            - VANETZA_STATION_ID=1
+            - VANETZA_STATION_TYPE=10 #Special Vehicle
+            - VANETZA_MAC_ADDRESS=6e:06:e0:03:00:01
+            - VANETZA_INTERFACE=br0
+            - START_EMBEDDED_MOSQUITTO=true
+            - SUPPORT_MAC_BLOCKING=true
+            - VANETZA_CAM_OWN_FULL_TOPIC_OUT="" #Desativar OWN
+            - VANETZA_CAM_OWN_TOPIC_OUT=""
+            - VANETZA_CAM_PERIODICITY=0
+            - VEHICLE_NAME=vcot01
+            - FIRESTATION_ID=0122
+            - EVENT_ID=1234
+            - INTF_NAME=eth0
+            - SWARM_KEY=${SWARM_KEY}
+            - STORE=${STORE}
+        ports:
+            - "40010:4001/tcp"
+            - "40010:4001/udp"
+        networks:
+            vanetzalan0:
+                ipv4_address: 192.168.98.10
+        sysctls:
+            kernel.msgmax: 65536
+            kernel.msgmnb: 65536
+
+networks:
+    vanetzalan0:
+        external: true
