@@ -50,7 +50,7 @@ if [[ $2 == "--up" || $3 == "--up" ]]; then
         echo -e "[+] Store address created by first vehicle: $STORE"
         break
     done
-    sleep 2
+    sleep 2    
 
     # Spin up secondary nodes with created database address to connect to 
     echo -e "[!] Other vehicle arriving on scene..."
