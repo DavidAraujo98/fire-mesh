@@ -1,3 +1,8 @@
+# FireMesh Diogo Mendes
+# This python should be used with the docker-compose. 
+# There does not need to be Sensor Mesh active.
+# DENM will be sent via distance
+
 import haversine as hs
 import paho.mqtt.client as mqtt
 import json

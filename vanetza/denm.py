@@ -1,3 +1,8 @@
+# FireMesh Diogo Mendes
+# This python pub to vanetza/alert
+# .
+# DENM will be sent with pub to vanetza/alert
+
 import paho.mqtt.client as mqtt
 import json
 import threading
