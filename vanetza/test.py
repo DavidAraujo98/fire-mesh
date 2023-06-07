@@ -1,8 +1,8 @@
-import haversine as hs
 import paho.mqtt.client as mqtt
 import json
 import time
 import threading
+import random
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
@@ -14,6 +14,9 @@ socketio = SocketIO(app)
 
 # Store the latest GPS coordinates
 latest_coordinates = {}
+lost_id = None
+lost_gps={}
+id_denm = None
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -26,49 +29,77 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     global color_obus
+    global lost_gps
+    global lost_id
+    global id_denm
     if msg.topic == "vanetza/in/cam":
         data = json.loads(msg.payload)
         index = data["stationID"]
-        if index == 0:
+        if index == id_denm:
             latest_coordinates[index] = {
                 "latitude": data["latitude"],
                 "longitude": data["longitude"],
-                "color": "red"  # Add the color property to the coordinates object
+                "color": "purple"  # Purple sending denm
             }
-        elif index == 1:
+        elif index == 0:
             latest_coordinates[index] = {
                 "latitude": data["latitude"],
                 "longitude": data["longitude"],
-                "color": "blue"  # Add the color property to the coordinates object
+                "color": "red"  # Base
             }
-        elif color_obus == "blue":
+        elif color_obus == "blue":  #default non base is blue
             latest_coordinates[index] = {
                 "latitude": data["latitude"],
                 "longitude": data["longitude"],
-                "color": "blue"  # Add the color property to the coordinates object
+                "color": "blue"  # default
             }
-        elif color_obus == "yellow" and index != 2:
+        elif color_obus == "yellow":
             latest_coordinates[index] = {
                 "latitude": data["latitude"],
                 "longitude": data["longitude"],
-                "color": "yellow"  # Add the color property to the coordinates object
+                "color": "yellow"  # smtg
+            }
+        elif color_obus == "orange":
+            latest_coordinates[index] = {
+                "latitude": data["latitude"],
+                "longitude": data["longitude"],
+                "color": "orange"  # smtg
+            }
+        elif color_obus == "purple":
+            latest_coordinates[index] = {
+                "latitude": data["latitude"],
+                "longitude": data["longitude"],
+                "color": "purple"  # smtg
             }
         else:
             latest_coordinates[index] = {
                 "latitude": data["latitude"],
                 "longitude": data["longitude"],
-                "color": "orange"  # Add the color property to the coordinates object
+                "color": "blue"  # default
             }
         # Send the latest coordinates through WebSocket
         socketio.emit("coordinates", latest_coordinates)
-    elif msg.topic == "vanetza/in/denm":
+    #elif msg.topic == "vanetza/in/denm":           #Tive de comentar isto para ser correto com o objetivo das denm
+    #    data = json.loads(msg.payload)
+    #    index = data["originatingStationID"]
+        # latest_coordinates[index] = {
+        #     "latitude": data["latitude"],
+        #     "longitude": data["longitude"],
+        #     "color": "purple"  # purple = sending denms
+        # }
+        # # Send the latest coordinates through WebSocket
+        # socketio.emit("coordinates", latest_coordinates)
+    elif msg.topic == "vanetza/alert":
         data = json.loads(msg.payload)
-        index = data["originatingStationID"]
+        index = data["index"]
         latest_coordinates[index] = {
             "latitude": data["latitude"],
             "longitude": data["longitude"],
-            "color": "orange"  # Add the color property to the coordinates object
+            "color": "black"            # Black = dead/lost
         }
+        #Update global variables to save the values
+        lost_id = data["index"]
+        lost_gps = (data["latitude"],data["longitude"])
         # Send the latest coordinates through WebSocket
         socketio.emit("coordinates", latest_coordinates)
 
@@ -83,13 +114,9 @@ def on_disconnect(client, userdata, rc):
 # Array with 0 initialized
 index_counter = [0, 0, 0, 0, 0]
 line_save = [0, 0, 0, 0, 0]
-coords_base = (40.314712104823286,-7.735168933868409)
-coords_fugitivo = (40.31412308743567,-7.736080884933473)
 
 def gps_iterate(client, index):
     # setup
-    global coords_base
-    global coords_fugitivo
     global index_counter
     global line_save
     with open(f"gps/{index}.csv") as f:
@@ -103,11 +130,7 @@ def gps_iterate(client, index):
         print(time.ctime())
     ## "Main" part
     line = coords[current_line]
-    latitude, longitude = line.strip().split(",")  # Assuming each line has format "longitude,latitude"
-    if index==0:
-        coords_base=(float(latitude),float(longitude))
-    if index==1:
-        coords_fugitivo=(float(latitude),float(longitude))
+    latitude, longitude = line.strip().split(",")  # Assuming each line has format "latitude,longitude"
     with open("in_cam.json") as cam_file:
         cam = json.load(cam_file)
     # Define the station ID
@@ -128,10 +151,10 @@ def gps_iterate(client, index):
 
 def lostInCombat(client, index):
     # setup
-    global coords_base
-    global coords_fugitivo
     global index_counter
     global line_save
+    global lost_gps
+    global lost_id
     with open(f"gps/{index}.csv") as f:
         coords = f.readlines()
     # Retrieve the current line from the stored state or restart the count
@@ -144,22 +167,19 @@ def lostInCombat(client, index):
     ## "Main" part
     line = coords[current_line]
     latitude, longitude = line.strip().split(",")  # Assuming each line has format "longitude,latitude"
-    if index==0:
-        coords_base=(float(latitude),float(longitude))
-    if index==1:
-        coords_fugitivo=(float(latitude),float(longitude))
-    #DENM---------
+    #-------- DENM ---------
     with open("examples/in_denm.json") as f:
         denm = json.load(f)
     # Define the station ID
     denm["originatingStationID"] = index
+    denm["sequenceNumber"] = lost_id
     # Define the GPS coordinates
-    denm["longitude"] = float(longitude)
-    denm["latitude"] = float(latitude)
+    denm["longitude"] = lost_gps[1]
+    denm["latitude"] = lost_gps[0]
     # Define the speed
     denm["speed"] = 4.16  # m/s = 15 km/h
     client.publish("vanetza/in/denm", json.dumps(denm))
-    #CAM---------
+    #-------- CAM ---------
     with open("in_cam.json") as cam_file:
         cam = json.load(cam_file)
     # Define the station ID
@@ -198,26 +218,22 @@ def handle_color_change(data):
 
 def publish_coordinates():
     global color_obus
-    global coords_fugitivo
-    c = 0
+    global lost_id
+    global id_denm
+    
     while True:
+        if lost_id != None:
+            id_denm = 0
+        if id_denm == lost_id:
+            id_denm = 1
         for index, client in enumerate(clients):
-            if(index == 1): 
+            if(index == 1):     #swap gps file, only changes front-end
                     index = 3
-            distance = hs.haversine(coords_base,coords_fugitivo)*1000
-            #print("d: "+str(distance))
-            if index != 2 or int(distance) < 120:
+            
+            if index != id_denm:
                 gps_iterate(client, index)
             else:
                 lostInCombat(client, index)
-                color_obus = "yellow"
-                socketio.emit("color_change", {"color": color_obus}, namespace="/")
-                c=1
-                #print("lostInCombat " + str(color_obus))
-            if c == 1 and distance < 120:
-                c=0
-                color_obus = "blue"
-                socketio.emit("color_change", {"color": color_obus}, namespace="/")
         time.sleep(0.1)
 
 

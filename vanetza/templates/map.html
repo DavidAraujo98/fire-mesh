@@ -68,6 +68,24 @@
             shadowSize: [41, 41]
         });
 
+        var blackIcon = L.icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        var purpleIcon = L.icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
         // Initialize a marker for each client
         var markers = {};
 
@@ -97,6 +115,10 @@
                 return orangeIcon;
             } else if (color === "yellow") {
                 return yellowIcon;
+            }else if (color === "purple") {
+                return purpleIcon;
+            }else if (color === "black") {
+                return blackIcon;
             } else {
                 // Default to blue if no color specified
                 return blueIcon;
