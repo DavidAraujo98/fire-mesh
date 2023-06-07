@@ -1,5 +1,33 @@
 #!/bin/sh
 
+### SensorMesh adaptation ###
+# Update IPFS_PATH
+export IPFS_PATH="$HOME/.ipfs" >> ~/.bashrc
+bash
+# Consume call paremeters
+REPO_NAME=$1        #FIRESTATION_ID:VEHICLE_NAME
+EVENT_ID=$2         #Iditifier of the current event
+INTF_NAME=$3        #Names of the used network interface
+SWARM_KEY=$4        #Private IPFS Swarm key
+STORE=$5            #OrbitDB database store address (name if first vehicle)
+# Initiate node and clean swarm
+ipfs init
+# Initiate sensormesh
+sensormesh init --nodename=$REPO_NAME --swarmkey=$SWARM_KEY
+# Subscribe to MQTT channel 
+sensormesh channel connect --brokerUrl="tcp://127.0.0.1:1883" --topic="vanetza/in/cam"
+# Remove bootstrap addresses
+ipfs bootstrap rm --all
+# Change the routing type to Distributed Hash Table
+ipfs config Routing.Type dht
+# Starting IPFS daemon service and gives it time to initialize
+ipfs daemon --enable-pubsub-experiment &
+sleep 5
+# Starting the sensormesh daemon
+sensormesh daemon --storeaddress=$STORE
+### SensorMesh adaptation ###
+
+
 IP_ADDR=$(ip -f inet addr show eth0 | awk '/inet / {print $2}')
 GW_ADDR=$(ip r | awk '/default / {print $3}')
 BR_ID=br0
