@@ -1,4 +1,4 @@
-# Firemesh
+# FireMesh
 
 ### Project developed in the scope of the ***Autonomous System's Networks*** course, class of **2022-2023**, at the **University of Aveiro**.
 
