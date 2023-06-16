@@ -21,7 +21,7 @@ if [[ $2 == "--build" ]]; then
     cd ..
 
     # Guarantees that every shell script is in Unix format. (Usefull if you develop in Windows)
-    dos2unix -q nodes/*.sh
+    # dos2unix -q nodes/*.sh
 
     # Build new image
     echo -e "[*] Building docker image..."

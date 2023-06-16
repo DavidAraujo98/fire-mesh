@@ -15,7 +15,4 @@ COPY requirements.txt requirements.txt
 
 RUN chmod -R 777 /usr/local/bin/*
 
-RUN apt update
-RUN apt install python3 -y 
-
 ENTRYPOINT bootstrap.sh ${FIRSTATION_ID}_${VEHICLE_NAME} ${EVENT_ID} ${INTF_NAME} ${SWARM_KEY} ${STORE} ${VANETZA_IP}}
