@@ -28,7 +28,7 @@ def denm():
 
 client = mqtt.Client()
 client.on_connect = on_connect
-client.connect("192.168.1.109", 1883, 60)
+client.connect("192.168.6.130", 1883, 60)
 
 threading.Thread(target=client.loop_forever).start()
 denm()
