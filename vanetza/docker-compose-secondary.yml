@@ -3,7 +3,7 @@ services:
     obu2:
         hostname: obu2
         restart: always
-        image: ${TARGET_IMAGE_NAME}
+        image: code.nap.av.it.pt:5050/mobility-networks/vanetza:latest
         cap_add:
             - "NET_ADMIN"
         environment:
@@ -16,25 +16,34 @@ services:
             - VANETZA_CAM_OWN_FULL_TOPIC_OUT="" #Desativar OWN
             - VANETZA_CAM_OWN_TOPIC_OUT=""
             - VANETZA_CAM_PERIODICITY=0
-            - VEHICLE_NAME=vfci02
-            - FIRESTATION_ID=0101
-            - EVENT_ID=1234
-            - INTF_NAME=eth0
-            - SWARM_KEY=${SWARM_KEY}
-            - STORE=${STORE}
-        ports:
-            - "40020:4001/tcp"
-            - "40020:4001/udp"
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.20
         sysctls:
             kernel.msgmax: 65536
             kernel.msgmnb: 65536
+    firemeshnode02:
+        container_name: vfci02
+        privileged: true
+        image: firemeshnode
+        networks:
+            vanetzalan0:
+                ipv4_address: 192.168.98.21
+        environment:
+            - VEHICLE_NAME=vfci02
+            - FIRESTATION_ID=0101
+            - EVENT_ID=1234
+            - INTF_NAME=eth0
+            - SWARM_KEY=${SWARM_KEY}
+            - STORE=${STORE}
+            - VANETZA_IP="192.168.98.20"
+        ports:
+            - "40022:4001/tcp"
+            - "40022:4001/udp"
     obu3:
         hostname: obu3
         restart: always
-        image: ${TARGET_IMAGE_NAME}
+        image: code.nap.av.it.pt:5050/mobility-networks/vanetza:latest
         cap_add:
             - "NET_ADMIN"
         environment:
@@ -47,25 +56,34 @@ services:
             - VANETZA_CAM_OWN_FULL_TOPIC_OUT="" #Desativar OWN
             - VANETZA_CAM_OWN_TOPIC_OUT=""
             - VANETZA_CAM_PERIODICITY=0
-            - VEHICLE_NAME=vfci03
-            - FIRESTATION_ID=0102
-            - EVENT_ID=1234
-            - INTF_NAME=eth0
-            - SWARM_KEY=${SWARM_KEY}
-            - STORE=${STORE}
-        ports:
-            - "40003:4001/tcp"
-            - "40003:4001/udp"
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.30
         sysctls:
             kernel.msgmax: 65536
             kernel.msgmnb: 65536
+    firemeshnode03:
+        container_name: vfci03
+        privileged: true
+        image: firemeshnode
+        networks:
+            vanetzalan0:
+                ipv4_address: 192.168.98.31
+        environment:
+            - VEHICLE_NAME=vfci03
+            - FIRESTATION_ID=0102
+            - EVENT_ID=1234
+            - INTF_NAME=eth0
+            - SWARM_KEY=${SWARM_KEY}
+            - STORE=${STORE}
+            - VANETZA_IP="192.168.98.30"
+        ports:
+            - "40033:4001/tcp"
+            - "40033:4001/udp"
     obu4:
         hostname: obu4
         restart: always
-        image: ${TARGET_IMAGE_NAME}
+        image: code.nap.av.it.pt:5050/mobility-networks/vanetza:latest
         cap_add:
             - "NET_ADMIN"
         environment:
@@ -78,25 +96,34 @@ services:
             - VANETZA_CAM_OWN_FULL_TOPIC_OUT="" #Desativar OWN
             - VANETZA_CAM_OWN_TOPIC_OUT=""
             - VANETZA_CAM_PERIODICITY=0
-            - VEHICLE_NAME=vfci04
-            - FIRESTATION_ID=0104
-            - EVENT_ID=1234
-            - INTF_NAME=eth0
-            - SWARM_KEY=${SWARM_KEY}
-            - STORE=${STORE}
-        ports:
-            - "40004:4001/tcp"
-            - "40004:4001/udp"
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.40
         sysctls:
             kernel.msgmax: 65536
             kernel.msgmnb: 65536
+    firemeshnode04:
+        container_name: vfci04
+        privileged: true
+        image: firemeshnode
+        networks:
+            vanetzalan0:
+                ipv4_address: 192.168.98.41
+        environment:
+            - VEHICLE_NAME=vfci03
+            - FIRESTATION_ID=0102
+            - EVENT_ID=1234
+            - INTF_NAME=eth0
+            - SWARM_KEY=${SWARM_KEY}
+            - STORE=${STORE}
+            - VANETZA_IP="192.168.98.40"
+        ports:
+            - "40044:4001/tcp"
+            - "40044:4001/udp"
     obu5:
         hostname: obu5
         restart: always
-        image: ${TARGET_IMAGE_NAME}
+        image: code.nap.av.it.pt:5050/mobility-networks/vanetza:latest
         cap_add:
             - "NET_ADMIN"
         environment:
@@ -109,21 +136,30 @@ services:
             - VANETZA_CAM_OWN_FULL_TOPIC_OUT="" #Desativar OWN
             - VANETZA_CAM_OWN_TOPIC_OUT=""
             - VANETZA_CAM_PERIODICITY=0
-            - VEHICLE_NAME=vfci05
-            - FIRESTATION_ID=0105
-            - EVENT_ID=1234
-            - INTF_NAME=eth0
-            - SWARM_KEY=${SWARM_KEY}
-            - STORE=${STORE}
-        ports:
-            - "40005:4001/tcp"
-            - "40005:4001/udp"
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.50
         sysctls:
             kernel.msgmax: 65536
             kernel.msgmnb: 65536
+    firemeshnode05:
+        container_name: vfci05
+        privileged: true
+        image: firemeshnode
+        networks:
+            vanetzalan0:
+                ipv4_address: 192.168.98.51
+        environment:
+            - VEHICLE_NAME=vfci03
+            - FIRESTATION_ID=0102
+            - EVENT_ID=1234
+            - INTF_NAME=eth0
+            - SWARM_KEY=${SWARM_KEY}
+            - STORE=${STORE}
+            - VANETZA_IP="192.168.98.50"
+        ports:
+            - "40055:4001/tcp"
+            - "40055:4001/udp"
 networks:
     vanetzalan0:
         external: true

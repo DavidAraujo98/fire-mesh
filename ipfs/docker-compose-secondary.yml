@@ -1,19 +1,21 @@
 version: "3.3"
 
-networks:
-    IPFSTest:
-        ipam:
-            config:
-                - subnet: "11.11.0.0/16"
+# Virtual for testing
+#networks:
+#    IPFSTest:
+#        ipam:
+#            config:
+#                - subnet: "11.11.0.0/16"
 
 services:
     node02:
         container_name: vfci02
         privileged: true
         image: ${TARGET_IMAGE_NAME}
-        networks:
-            IPFSTest:
-                ipv4_address: 11.11.0.20
+        # Virtual for testing
+        #networks:
+        #    IPFSTest:
+        #        ipv4_address: 11.11.0.20
         environment:
             - VEHICLE_NAME=vfci02
             - FIRESTATION_ID=0101
@@ -21,17 +23,19 @@ services:
             - INTF_NAME=eth0
             - SWARM_KEY=${SWARM_KEY}
             - STORE=${STORE}
+            - VANETZA_IP="192.168.6.140"
         ports:
-            - "40020:4001/tcp"
-            - "40020:4001/udp"
+            - "40140:4001/tcp"
+            - "40140:4001/udp"
 
     node03:
         container_name: vfci03
         privileged: true
         image: ${TARGET_IMAGE_NAME}
-        networks:
-            IPFSTest:
-                ipv4_address: 11.11.0.30
+        # Virtual for testing
+        #networks:
+        #    IPFSTest:
+        #        ipv4_address: 11.11.0.30
         environment:
             - VEHICLE_NAME=vfci03
             - FIRESTATION_ID=0102
@@ -39,6 +43,7 @@ services:
             - INTF_NAME=eth0
             - SWARM_KEY=${SWARM_KEY}
             - STORE=${STORE}
+            - VANETZA_IP="192.168.6.149"
         ports:
-            - "40003:4001/tcp"
-            - "40003:4001/udp"
+            - "40149:4001/tcp"
+            - "40149:4001/udp"

@@ -3,7 +3,7 @@ services:
     obu:
         hostname: obu
         restart: always
-        image: ${TARGET_IMAGE_NAME}
+        image: code.nap.av.it.pt:5050/mobility-networks/vanetza:latest
         cap_add:
             - "NET_ADMIN"
         environment:
@@ -16,22 +16,30 @@ services:
             - VANETZA_CAM_OWN_FULL_TOPIC_OUT="" #Desativar OWN
             - VANETZA_CAM_OWN_TOPIC_OUT=""
             - VANETZA_CAM_PERIODICITY=0
-            - VEHICLE_NAME=vcot01
-            - FIRESTATION_ID=0122
-            - EVENT_ID=1234
-            - INTF_NAME=eth0
-            - SWARM_KEY=${SWARM_KEY}
-            - STORE=${STORE}
-        ports:
-            - "40010:4001/tcp"
-            - "40010:4001/udp"
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.10
         sysctls:
             kernel.msgmax: 65536
             kernel.msgmnb: 65536
-
+    sensormesh0:
+        container_name: vcot01
+        privileged: true
+        image: firemeshnode
+        networks:
+            vanetzalan0:
+                ipv4_address: 192.168.98.11
+        environment:
+            - VEHICLE_NAME=vcot01
+            - FIRESTATION_ID=0122
+            - EVENT_ID=1234
+            - INTF_NAME=eth0
+            - SWARM_KEY=${SWARM_KEY}
+            - STORE=${STORE}
+            - VANETZA_IP="192.168.98.10"
+        ports:
+            - "40011:4001/tcp"
+            - "40011:4001/udp"
 networks:
     vanetzalan0:
         external: true

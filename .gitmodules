@@ -1,3 +1,0 @@
-[submodule "ipfs/sensor-mesh"]
-	path = ipfs/sensor-mesh
-	url = git@github.com:DavidAraujo98/sensor-mesh.git

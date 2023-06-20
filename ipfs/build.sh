@@ -21,7 +21,7 @@ if [[ $2 == "--build" ]]; then
     cd ..
 
     # Guarantees that every shell script is in Unix format. (Usefull if you develop in Windows)
-    dos2unix -q nodes/*.sh
+    # dos2unix -q nodes/*.sh
 
     # Build new image
     echo -e "[*] Building docker image..."
@@ -50,7 +50,7 @@ if [[ $2 == "--up" || $3 == "--up" ]]; then
         echo -e "[+] Store address created by first vehicle: $STORE"
         break
     done
-    sleep 2
+    sleep 2    
 
     # Spin up secondary nodes with created database address to connect to 
     echo -e "[!] Other vehicle arriving on scene..."
